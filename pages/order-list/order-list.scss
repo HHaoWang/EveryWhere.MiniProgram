@@ -1,5 +1,13 @@
 /* pages/order-list/order-list.wxss */
 
+.card-container {
+    overflow: hidden;
+}
+
+.card-container+.card-container {
+    margin-top: 6px;
+}
+
 .order-title {
     font-size: 14px;
     color: #1989fa;

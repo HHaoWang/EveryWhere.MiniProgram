@@ -1,2 +1,83 @@
 /* pages/order.wxss */
+
+van-tag+van-tag {
+    padding-left: 2px;
+}
+
+.order-info {
+    background-color: white;
+    padding: 16px 4% 16px 4%;
+}
+
+.order-property {
+    line-height: 26px;
+    font-size: 16px;
+}
+
+.order-property+.order-property {
+    font-size: 14px;
+}
+
+.desc-text {
+    color: rgba(69, 90, 100, .6);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+    padding: 16px;
+}
+
+.job-card {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    min-height: 0px;
+    margin-top: 4px;
+    background-color: white;
+    padding: 16px 4% 16px 0;
+    font-size: 14px;
+}
+
+.job-card+.job-card {
+    margin-top: 8px;
+}
+
+.job-card:last-child {
+    margin-bottom: 70px;
+}
+
+.job-card+.job-card .job-info {
+    border-top: 1px solid rgb(247 248 250);
+}
+
+.job-icon {
+    flex: 2;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+}
+
+.job-icon image {
+    width: 60%;
+    margin: auto;
+}
+
+.job-info {
+    flex: 7;
+    line-height: 20px;
+}
+
+.job-price {
+    color: #EE0A24;
+    line-height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: large;
+}
+
+.job-count {
+    color: black;
+    font-size: 14px;
+}
+
 @import 'order-wxa-auto-dark.wxss'

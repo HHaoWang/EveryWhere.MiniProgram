@@ -1,3 +1,7 @@
 {
-  "usingComponents": {}
+    "usingComponents": {
+        "van-tag": "@vant/weapp/tag/index",
+        "van-submit-bar": "@vant/weapp/submit-bar/index",
+        "van-dialog": "@vant/weapp/dialog/index"
+    }
 }

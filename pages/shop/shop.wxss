@@ -12,10 +12,18 @@ page {
 
 .nav-style {
     box-sizing: initial;
-    background-color: transparent !important;
     color: white;
     --nav-bar-icon-color: white;
     --nav-bar-text-color: white;
+    --nav-bar-background-color: transparent;
+}
+
+.van-nav-bar__left:active {
+    opacity: 0.6;
+}
+
+.van-nav-bar__text--hover {
+    background-color: transparent !important;
 }
 
 view.van-hairline--bottom:after {

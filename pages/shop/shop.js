@@ -14,7 +14,6 @@ Page({
         shop: {},
         jobs: [],
         showPrinterInfo: false,
-        currentPrinterId: -1,
         showPrintSettings: false,
         uploadedFileInfo: null,
         currentPrintSetting: null,
@@ -23,6 +22,7 @@ Page({
             [],
             []
         ],
+        currentPrinter: {},
         showCart: false,
         showLoading: false
     },
@@ -32,9 +32,6 @@ Page({
     computed: {
         totalPrice(data) {
             return data.jobs.reduce((sum, item) => sum + item.price, 0);
-        },
-        currentPrinter(data) {
-            return data.shop.printers.find(printer => printer.id == data.currentPrinterId);
         },
         uploadedFileDescription(data) {
             if (data.uploadedFileInfo == null) {
@@ -81,9 +78,10 @@ Page({
      * @param {*} event 
      */
     onClickPrinter(event) {
+        let that = this;
         this.setData({
             showPrinterInfo: true,
-            currentPrinterId: event.currentTarget.dataset.id
+            currentPrinter: that.data.shop.printers.find(printer => printer.id == event.currentTarget.dataset.id)
         })
     },
 
@@ -299,7 +297,7 @@ Page({
             url: app.globalData.baseUrl + '/api/Order/Job/Calculate',
             data: {
                 fileId: that.data.currentPrintSetting.fileId,
-                printerId: that.data.shop.printers.find(printer => printer.id == that.data.currentPrinterId).id,
+                printerId: that.data.currentPrinter.id,
                 size: that.data.currentPrintSetting.size,
                 pagesStart: that.data.currentPrintSetting.pagesStart,
                 pagesEnd: that.data.currentPrintSetting.pagesEnd,
@@ -334,7 +332,7 @@ Page({
         let jobs = this.data.jobs;
         jobs.push({
             ...this.data.currentPrintSetting,
-            printerId: this.data.currentPrinterId
+            printerId: this.data.currentPrinter.id
         });
         this.setData({
             printerId: -1,
@@ -454,7 +452,7 @@ Page({
         this.setData({
             jobs: [],
             showPrinterInfo: false,
-            currentPrinterId: -1,
+            currentPrinter: {},
             showPrintSettings: false,
             uploadedFileInfo: null,
             currentPrintSetting: null,

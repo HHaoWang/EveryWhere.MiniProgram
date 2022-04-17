@@ -5,43 +5,48 @@
 <van-empty description="没有历史订单" wx:if="{{order.length <= 0}}" />
 
 <view>
-  <van-card
+  <view
+    class="card-container touchable"
     wx:for="{{orders}}"
     wx:for-item="order"
-    thumb="/static/img/documents.svg"
-    custom-class="order-card touchable"
-    thumb-class="order-icon"
-    desc-class="order-desc"
-    price-class="order-price"
-    bind:tap="onClcikOrder"
-    data-id="{{order.id}}"
   >
-    <view
-      slot="title"
-      class="order-title"
-      catch:tap="onClickOrderShop"
+    <van-card
+      thumb="/static/img/documents.svg"
+      custom-class="order-card"
+      thumb-class="order-icon"
+      desc-class="order-desc"
+      price-class="order-price"
+      bind:tap="onClcikOrder"
       data-id="{{order.id}}"
     >
-      {{order.shop.name}}
-      <van-icon name="arrow" color="#1989fa" />
-    </view>
-    <view slot="desc" class="order-desc">
-      <view>创建时间：{{order.createTime}}</view>
-      <view wx:if="{{order.payTime != null}}">付款时间：{{order.payTime}}</view>
-      <view wx:if="{{order.completeTime != null}}">完成时间：{{order.completeTime}}</view>
-    </view>
-    <view slot="price">
-      <view class="order-price-number">
-        ￥{{order.price}}
+      <view
+        slot="title"
+        class="order-title"
+        catch:tap="onClickOrderShop"
+        data-id="{{order.id}}"
+      >
+        {{order.shop.name}}
+        <van-icon name="arrow" color="#1989fa" />
       </view>
-      <van-tag wx:if="{{order.state == 0}}" type="danger">未支付
-      </van-tag>
-      <van-tag wx:elif="{{order.state == 1}}" type="primary">进行中
-      </van-tag>
-      <van-tag wx:elif="{{order.state == 2}}" type="success">已完成
-      </van-tag>
-    </view>
-    <view slot="num">共{{order.printJobs.length}}个文档</view>
-  </van-card>
+      <view slot="desc" class="order-desc">
+        <view>创建时间：{{order.createTime}}</view>
+        <view wx:if="{{order.payTime != null}}">付款时间：{{order.payTime}}</view>
+        <view wx:if="{{order.completeTime != null}}">完成时间：{{order.completeTime}}</view>
+      </view>
+      <view slot="price">
+        <view class="order-price-number">
+          ￥{{order.price}}
+        </view>
+        <van-tag wx:if="{{order.state == 0}}" type="danger">未支付
+        </van-tag>
+        <van-tag wx:elif="{{order.state == 1}}" type="primary">打印中
+        </van-tag>
+        <van-tag wx:elif="{{order.state == 2}}" type="success">已完成
+        </van-tag>
+      </view>
+      <view slot="num">共{{order.printJobs.length}}个文档</view>
+    </van-card>
+  </view>
+
 </view>
 

@@ -12,8 +12,10 @@
   <text>开始打印</text>
 </view>
 
-<view class="block-card touchable-card bg-orange-gradient radius shadow-blur">
+<view class="block-card touchable-card bg-orange-gradient radius shadow-blur" bind:tap="onScanShopCode">
   <image src="/static/img/shop.svg" />
   <text>扫码进店</text>
 </view>
+
+<van-dialog id="van-dialog" />
 

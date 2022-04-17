@@ -1,6 +1,7 @@
 // index.js
 // 获取应用实例
-const app = getApp()
+const app = getApp();
+import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
 
 Page({
     data: {
@@ -28,12 +29,35 @@ Page({
     //跳转到打印店列表
     onStartPrint() {
         wx.navigateTo({
-            url: '/pages/shop-list/shop-list',
-            success: (result) => {
-
-            },
-            fail: () => {},
-            complete: () => {}
+            url: '/pages/shop-list/shop-list'
         });
     },
+
+    /**
+     * 扫码进店
+     */
+    onScanShopCode() {
+        let info;
+        wx.scanCode({
+            onlyFromCamera: true,
+            scanType: ["qrCode"]
+        }).catch((error) => {
+            return;
+        }).then((res) => {
+            if (res == undefined) {
+                return;
+            }
+            info = JSON.parse(res.result);
+            if (!(info.operation != undefined && info.operation == "openShop" && info.data.shopId != undefined)) {
+                throw Error;
+            }
+            wx.navigateTo({
+                url: '/pages/shop/shop?id=' + info.data.shopId
+            });
+        }).catch((error) => {
+            Dialog.alert({
+                message: "不是有效的店铺二维码！"
+            })
+        });
+    }
 })

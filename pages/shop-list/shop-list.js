@@ -48,6 +48,9 @@ Page({
 
     },
 
+    /**
+     * 返回上一页
+     */
     onClickLeft() {
         wx.navigateBack({
             delta: 1

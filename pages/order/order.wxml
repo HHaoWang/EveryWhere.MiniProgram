@@ -1,40 +1,82 @@
 <!--pages/order.wxml-->
+<!--导航栏-->
+<van-nav-bar
+  title="订单详情"
+  left-text="返回"
+  left-arrow
+  bind:click-left="onClickLeft"
+  custom-style="box-sizing: initial;margin-bottom: 20px;"
+/>
+
+<view class="order-info">
+  <view class="order-property">
+    <van-icon name="shop-o" color="#1989FA" />
+    {{order.shop.name}}
+  </view>
+  <view class="order-property">
+    订单状态：
+    <van-tag wx:if="{{order.state == 0}}" type="danger">未支付
+    </van-tag>
+    <van-tag wx:elif="{{order.state == 1}}" type="primary">打印中
+    </van-tag>
+    <van-tag wx:elif="{{order.state == 2}}" type="success">已完成
+    </van-tag>
+  </view>
+  <view class="order-property">
+    下单时间：{{order.createTime}}
+  </view>
+  <view class="order-property" wx:if="{{order.payTime != null}}">
+    付款时间：{{order.payTime}}
+  </view>
+  <view class="order-property" wx:if="{{order.completeTime != null}}">
+    完成时间：{{order.completeTime}}
+  </view>
+  <view class="order-property">
+    文档总数：{{order.printJobs.length}}
+  </view>
+  <view class="order-property">
+    订单总价：
+    <text style="color:red;font-size:16px">￥{{order.price}}</text>
+  </view>
+</view>
+
+<view class="desc-text">订单文档</view>
 
 <view class="job-card" wx:for="{{order.printJobs}}">
   <view class="job-icon">
     <image
       src="/static/img/word.svg"
       mode="widthFix"
-      wx:if="{{item.fileInfo.ext == 'doc'}}"
+      wx:if="{{item.file.ext == 'doc'}}"
     />
     <image
       src="/static/img/word.svg"
       mode="widthFix"
-      wx:if="{{item.fileInfo.ext == 'docx'}}"
+      wx:if="{{item.file.ext == 'docx'}}"
     />
     <image
       src="/static/img/ppt.svg"
       mode="widthFix"
-      wx:if="{{item.fileInfo.ext == 'ppt'}}"
+      wx:if="{{item.file.ext == 'ppt'}}"
     />
     <image
       src="/static/img/ppt.svg"
       mode="widthFix"
-      wx:if="{{item.fileInfo.ext == 'pptx'}}"
+      wx:if="{{item.file.ext == 'pptx'}}"
     />
     <image
       src="/static/img/excel.svg"
       mode="widthFix"
-      wx:if="{{item.fileInfo.ext == 'xls'}}"
+      wx:if="{{item.file.ext == 'xls'}}"
     />
     <image
       src="/static/img/excel.svg"
       mode="widthFix"
-      wx:if="{{item.fileInfo.ext == 'xlsx'}}"
+      wx:if="{{item.file.ext == 'xlsx'}}"
     />
   </view>
   <view class="job-info">
-    <view class="job-name">{{item.fileInfo.name}}</view>
+    <view class="job-name">{{item.file.originalName}}</view>
     <view>
       <van-tag
         plain
@@ -60,13 +102,24 @@
         wx:if="{{item.duplex != 1}}"
       >单面打印
       </van-tag>
-      <van-tag plain type="primary">{{item.size}}
+      <van-tag plain type="primary">{{item.pageSize}}
       </van-tag>
     </view>
+    <view wx:if="{{item.fetchCode != null}}">取件码：{{item.fetchCode}}</view>
     <view class="job-price">
-      ￥{{item.price/100}}
+      ￥{{item.price}}
+      <view class="job-count">{{item.count}}份</view>
     </view>
   </view>
 
 </view>
+
+<van-dialog id="van-dialog" zIndex="998" />
+
+<van-submit-bar
+  wx:if="{{ order.state==0 }}"
+  price="{{ order.price*100 }}"
+  button-text="付款"
+  bind:submit="onPay"
+/>
 

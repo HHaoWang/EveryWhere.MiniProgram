@@ -55,8 +55,18 @@ Page({
                     success: (result) => {
                         console.log(result.data);
                         if (result.data.statusCode == 200) {
+                            let orders = result.data.data.orders;
+                            orders.sort((a, b) => {
+                                if (a.createTime > b.createTime) {
+                                    return -1;
+                                } else if (a.createTime == b.createTime) {
+                                    return 0;
+                                } else {
+                                    return 1;
+                                }
+                            });
                             that.setData({
-                                orders: result.data.data.orders
+                                orders
                             })
                         }
                     },
