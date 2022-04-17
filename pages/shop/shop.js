@@ -21,38 +21,12 @@ Page({
             notice: '本店开业大酬宾啦！！！！！进店有优惠！！！！千万不要错过！！！！',
             printers: []
         },
-        jobs: [{
-                printerId: 2,
-                duplex: true,
-                color: true,
-                price: 0.15
-            },
-            {
-                printerId: 4,
-                duplex: false,
-                color: false,
-                price: 0.4
-            },
-            {
-                printerId: 1,
-                duplex: false,
-                color: false,
-                price: 10.6
-            }
-        ],
+        jobs: [],
         showPrinterInfo: false,
         currentPrinterId: -1,
         showPrintSettings: false,
         uploadedFileInfo: null,
-        currentPrintSetting: {
-            duplex: '0',
-            color: '0',
-            size: 'A4',
-            count: 1,
-            pagesStart: 1,
-            pagesEnd: 1,
-            price: 0
-        },
+        currentPrintSetting: null,
         currentPrintPagesIndex: [0, 0],
         currentPrintPagesArray: [
             [],
@@ -66,7 +40,7 @@ Page({
 
     computed: {
         totalPrice(data) {
-            return data.jobs.reduce((sum, item) => sum + item.price * 100, 0);
+            return data.jobs.reduce((sum, item) => sum + item.price, 0);
         },
         currentPrinter(data) {
             return data.shop.printers.find(printer => printer.id == data.currentPrinterId);
@@ -77,6 +51,9 @@ Page({
             } else {
                 return data.uploadedFileInfo.name + ' ' + data.uploadedFileInfo.size + 'MiB ' + data.uploadedFileInfo.pages + '页'
             }
+        },
+        submitOrderDisabled(data) {
+            return data.jobs == null || data.jobs.length <= 0;
         }
     },
 
@@ -198,6 +175,9 @@ Page({
         })
     },
 
+    /**
+     * 等待文件转换
+     */
     waitFileConvert(fileId) {
         console.log("开始等待转换");
         let that = this;
@@ -214,6 +194,7 @@ Page({
                         fileInfo.size = result.data.data.size;
                         fileInfo.pages = result.data.data.pageCount;
                         fileInfo.id = result.data.data.id;
+                        fileInfo.ext = that.getFileExt(result.data.data.originalName);
 
                         that.setData({
                             uploadedFileInfo: {
@@ -224,6 +205,7 @@ Page({
                             currentPrintPagesArray: [Array.from(new Array(fileInfo.pages + 1).keys()).slice(1),
                                 Array.from(new Array(fileInfo.pages + 1).keys()).slice(1)
                             ],
+                            currentPrintPagesIndex: [0, fileInfo.pages - 1],
                             currentPrintSetting: {
                                 fileId: fileInfo.id,
                                 duplex: '0',
@@ -232,28 +214,36 @@ Page({
                                 count: 1,
                                 pagesStart: 1,
                                 pagesEnd: fileInfo.pages,
-                                price: -1
+                                price: -1,
+                                fileInfo
                             },
                             showLoading: false
-                        })
+                        });
+                        that.onChangeSettings();
                     }
                 },
                 fail: () => {},
                 complete: () => {}
             });
-
         }, 2000);
+    },
 
+    /**
+     * 获取文件名的后缀
+     */
+    getFileExt(fileName) {
+        var index = fileName.lastIndexOf(".");
+        return fileName.substr(index + 1);
     },
 
     /**
      * 设置打印纸张大小
-     * @param {*} name 
      */
     onSizeChange(name) {
         this.setData({
             'currentPrintSetting.size': name.detail
         })
+        this.onChangeSettings();
     },
 
     /**
@@ -264,6 +254,7 @@ Page({
         this.setData({
             'currentPrintSetting.color': name.detail
         })
+        this.onChangeSettings();
     },
 
     /**
@@ -274,6 +265,7 @@ Page({
         this.setData({
             'currentPrintSetting.duplex': name.detail
         })
+        this.onChangeSettings();
     },
 
     /**
@@ -284,11 +276,11 @@ Page({
         this.setData({
             'currentPrintSetting.count': name.detail
         })
+        this.onChangeSettings();
     },
 
     /**
      * 设置打印页范围
-     * @param {*} event 
      */
     onPagesChange(event) {
         let selectedIndex = event.detail.value;
@@ -303,11 +295,53 @@ Page({
                 'currentPrintSetting.pagesStart': this.data.currentPrintPagesArray[0][selectedIndex[0]],
                 'currentPrintSetting.pagesEnd': this.data.currentPrintPagesArray[1][selectedIndex[1]],
             })
+            this.onChangeSettings();
         }
     },
 
+    /**
+     * 获取任务价格
+     */
+    onChangeSettings() {
+        let that = this;
+        wx.request({
+            url: app.globalData.baseUrl + '/api/Order/Job/Calculate',
+            data: {
+                fileId: that.data.currentPrintSetting.fileId,
+                printerId: that.data.shop.printers.find(printer => printer.id == that.data.currentPrinterId).id,
+                size: that.data.currentPrintSetting.size,
+                pagesStart: that.data.currentPrintSetting.pagesStart,
+                pagesEnd: that.data.currentPrintSetting.pagesEnd,
+                color: that.data.currentPrintSetting.color != "0",
+                duplex: that.data.currentPrintSetting.duplex != "0",
+                count: that.data.currentPrintSetting.count
+            },
+            method: 'POST',
+            success: (result) => {
+                if (result.data.statusCode == 200) {
+                    that.setData({
+                        "currentPrintSetting.price": result.data.data.totalPrice
+                    })
+                }
+            },
+            fail: () => {},
+            complete: () => {}
+        });
+
+    },
+
+    /**
+     * 确认打印任务
+     */
     onSubmitJob() {
-        this.data.jobs.push({
+        if (this.data.currentPrintSetting == null) {
+            Dialog.alert({
+                message: "还没有上传文件！"
+            })
+            return;
+        }
+        let jobs = this.data.jobs;
+        jobs.push({
             ...this.data.currentPrintSetting,
             printerId: this.data.currentPrinterId
         });
@@ -318,21 +352,102 @@ Page({
             currentPrintPagesArray: [
                 [],
                 []
-            ]
+            ],
+            jobs
         });
         this.onClosePrintSetting();
     },
 
+    /**
+     * 打开购物车
+     */
     onOpenCart() {
         this.setData({
             showCart: true
         });
     },
 
+    /**
+     * 关闭购物车
+     */
     onCloseCart() {
         this.setData({
             showCart: false
         });
+    },
+
+    /**
+     * 购物车内修改数量
+     */
+    onChangeCartCount(event) {
+        let jobs = this.data.jobs;
+        let fileId = event.currentTarget.dataset.id;
+        let newCount = event.detail;
+        let index = jobs.findIndex(j => j.fileId == fileId);
+        if (index == -1) {
+            console.log("修改打印数量失败！");
+            return;
+        }
+        jobs[index].price = (jobs[index].price / jobs[index].count) * newCount;
+        jobs[index].count = newCount;
+        this.setData({
+            jobs
+        });
+    },
+
+    /**
+     * 删除购物车内物品
+     */
+    onDeleteCartItem(event) {
+        let that = this;
+        Dialog.confirm({
+            message: "确认删除吗？"
+        }).then(() => {
+            let fileId = event.currentTarget.dataset.id;
+            let jobs = that.data.jobs.filter(job => job.fileId != fileId);
+            this.setData({
+                jobs
+            });
+        }).catch(() => {})
+    },
+
+    /**
+     * 提交订单
+     */
+    onSubmitOrder() {
+        let that = this;
+        if (this.data.jobs.length <= 0) {
+            Dialog.alert({
+                message: "当前购物车为空！"
+            });
+            return;
+        }
+        wx.request({
+            url: app.globalData.baseUrl + '/api/Order',
+            data: {
+                "shopId": that.data.shop.id,
+                "printTickets": that.data.jobs.map(j => {
+                    j.color = j.color != "0";
+                    j.duplex = j.duplex != "0";
+                    return j;
+                })
+            },
+            header: {
+                'Authorization': 'Bearer ' + app.globalData.token
+            },
+            method: 'POST',
+            success: (result) => {
+                console.log(result.data);
+                if (result.data.statusCode == 200) {
+                    wx.navigateBack({
+                        delta: 1
+                    });
+                }
+            },
+            fail: () => {},
+            complete: () => {}
+        });
+
     },
 
     /**

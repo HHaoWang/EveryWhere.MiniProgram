@@ -2,7 +2,6 @@
 
 page {
     background-color: #f9f9f9 !important;
-    box-sizing: initial;
 }
 
 .header {
@@ -126,6 +125,7 @@ van-tag+van-tag {
     display: block;
     padding: 0 12px;
     width: 100%;
+    box-sizing: border-box;
 }
 
 .print-settings .setting-item {
@@ -173,9 +173,7 @@ van-tag+van-tag {
 }
 
 .cart-title {
-    font-weight: bold;
     font-size: 16px;
-    font-family: "黑体";
 }
 
 .loading-wrapper {
@@ -193,4 +191,57 @@ van-tag+van-tag {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.job-card {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    width: 97%;
+    min-height: 70px;
+    margin-top: 4px;
+}
+
+.job-card+.job-card {
+    margin-top: 16px;
+}
+
+.job-card:last-child {
+    margin-bottom: 70px;
+}
+
+.job-card+.job-card .job-info {
+    border-top: 1px solid rgb(247 248 250);
+}
+
+.job-icon {
+    flex: 2;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    padding-top: 16px;
+}
+
+.job-icon image {
+    width: 60%;
+    margin: auto;
+}
+
+.job-info {
+    flex: 7;
+    line-height: 20px;
+    padding-top: 16px;
+}
+
+.job-price {
+    color: #EE0A24;
+    line-height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: large;
+}
+
+.job-count {
+    display: flex;
 }

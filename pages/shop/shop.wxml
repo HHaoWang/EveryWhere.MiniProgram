@@ -99,7 +99,8 @@
 <van-submit-bar
   price="{{ totalPrice }}"
   button-text="提交订单"
-  bind:submit="onSubmit"
+  disabled="{{submitOrderDisabled}}"
+  bind:submit="onSubmitOrder"
 >
   <view class="cart-style touchable" bind:tap="onOpenCart">
     <van-icon
@@ -222,7 +223,6 @@
         >
           <van-radio name="A4">A4</van-radio>
           <van-radio name="A3">A3</van-radio>
-          <van-radio name="B5">B5</van-radio>
         </van-radio-group>
       </view>
     </view>
@@ -284,7 +284,7 @@
       <view class="setting-desc">预计金额</view>
       <view class="setting-value">
         <text wx:if="{{currentPrintSetting.price<0}}">正在计算</text>
-        <text wx:if="{{currentPrintSetting.price>=0}}">{{currentPrintSetting.price}}元</text>
+        <text wx:if="{{currentPrintSetting.price>=0}}">{{currentPrintSetting.price/100}}元</text>
       </view>
     </view>
   </view>
@@ -307,16 +307,107 @@
   </view>
 </van-overlay>
 
-<van-dialog id="van-dialog" />
+<van-dialog id="van-dialog" zIndex="998" />
 
 <!-- 购物车 -->
 <van-popup
   show="{{ showCart }}"
   bind:close="onCloseCart"
   position="bottom"
+  z-index="90"
   round
-  custom-style="height: 80%;padding:8px;"
+  custom-style="height: 70%;padding: 21px 0 8px;"
 >
-  <view class="cart-title">已添加的打印任务</view>
+  <view class="title">已添加的打印任务</view>
+  <view>
+    <view class="job-card" wx:for="{{jobs}}">
+      <view class="job-icon">
+        <image
+          src="/static/img/word.svg"
+          mode="widthFix"
+          wx:if="{{item.fileInfo.ext == 'doc'}}"
+        />
+        <image
+          src="/static/img/word.svg"
+          mode="widthFix"
+          wx:if="{{item.fileInfo.ext == 'docx'}}"
+        />
+        <image
+          src="/static/img/ppt.svg"
+          mode="widthFix"
+          wx:if="{{item.fileInfo.ext == 'ppt'}}"
+        />
+        <image
+          src="/static/img/ppt.svg"
+          mode="widthFix"
+          wx:if="{{item.fileInfo.ext == 'pptx'}}"
+        />
+        <image
+          src="/static/img/excel.svg"
+          mode="widthFix"
+          wx:if="{{item.fileInfo.ext == 'xls'}}"
+        />
+        <image
+          src="/static/img/excel.svg"
+          mode="widthFix"
+          wx:if="{{item.fileInfo.ext == 'xlsx'}}"
+        />
+      </view>
+      <view class="job-info">
+        <view class="job-name">{{item.fileInfo.name}}</view>
+        <view>
+          <van-tag
+            plain
+            type="primary"
+            wx:if="{{item.color == 1}}"
+          >彩印
+          </van-tag>
+          <van-tag
+            plain
+            type="primary"
+            wx:if="{{item.color != 1}}"
+          >黑白
+          </van-tag>
+          <van-tag
+            plain
+            type="primary"
+            wx:if="{{item.duplex == 1}}"
+          >双面打印
+          </van-tag>
+          <van-tag
+            plain
+            type="primary"
+            wx:if="{{item.duplex != 1}}"
+          >单面打印
+          </van-tag>
+          <van-tag plain type="primary">{{item.size}}
+          </van-tag>
+        </view>
+        <view class="job-price">
+          ￥{{item.price/100}}
+          <view class="job-count">
+            <van-icon
+              name="delete-o"
+              size="20px"
+              custom-style="margin-right:8px"
+              data-id="{{item.fileId}}"
+              bind:click="onDeleteCartItem"
+            />
+            <van-stepper
+              value="{{ item.count }}"
+              integer
+              min="1"
+              max="100"
+              theme="round"
+              button-size="20px"
+              data-id="{{item.fileId}}"
+              bind:change="onChangeCartCount"
+            />
+          </view>
+        </view>
+      </view>
+
+    </view>
+  </view>
 </van-popup>
 

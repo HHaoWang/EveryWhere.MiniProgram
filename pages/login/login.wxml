@@ -4,7 +4,7 @@
     mode="heightFix"
     class="img"
   ></image>
-  <view class="title">登录</view>
+  <view class="login-title">登录</view>
   <view class="describe">请点击下方按钮进行登录</view>
   <van-button
     plain
