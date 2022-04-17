@@ -1,0 +1,13 @@
+/* 
+此文件为开发者工具生成，生成时间: 2022/3/17 下午4:38:06
+使用方法：
+在 order.wxss 文件末尾引入样式
+```
+@import "./order-wxa-auto-dark.wxss";
+```
+ */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+    }
+}

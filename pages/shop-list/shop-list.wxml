@@ -1,0 +1,93 @@
+<!--pages/shop-list/shop-list.wxml-->
+<!--导航栏-->
+<van-nav-bar
+  title="选择店铺"
+  left-text="返回"
+  left-arrow
+  bind:click-left="onClickLeft"
+  custom-style="box-sizing: initial;margin-bottom: 20px;"
+/>
+
+<!-- 区域选择 -->
+<van-cell-group inset class="area-selector">
+  <van-cell
+    title="区域"
+    value="{{area}}"
+    is-link
+    bind:click="onOpenAreaSelector"
+  />
+</van-cell-group>
+
+<van-popup
+  show="{{ showAreaSelector }}"
+  bind:close="onCloseAreaSelector"
+  position="bottom"
+  round
+  custom-style="height: 40%;padding:8px;"
+>
+  <van-area
+    area-list="{{ areaList }}"
+    bind:confirm="onConfirmArea"
+    bind:cancel="onCloseAreaSelector"
+  />
+</van-popup>
+
+<!-- 等待提示 -->
+<view class="loading" wx:if="{{showLoading}}">
+  <van-loading
+    size="24px"
+    color="#1989fa"
+    vertical
+  >加载中...
+  </van-loading>
+</view>
+
+<van-empty description="当前区域暂时没有打印店" wx:if="{{isEmpty}}" />
+
+<view
+  class="shop-card touchable"
+  wx:for="{{shopList}}"
+  bind:tap="onClickShop"
+  data-id="{{item.id}}"
+>
+  <view class="base-info">
+    <view class="shop-name">{{item.name}}</view>
+    <view>
+      <van-icon name="location-o" />
+      {{item.address}}
+    </view>
+    <view>
+      <van-icon name="underway-o" />
+      {{item.openTime}} - {{item.closeTime}}
+    </view>
+    <van-tag
+      type="primary"
+      size="medium"
+      wx:if="{{item.isOpening}}"
+    >营业中
+    </van-tag>
+    <van-tag
+      color="grey"
+      size="medium"
+      wx:else="{{item.isOpening}}"
+      plain
+    >暂停营业
+    </van-tag>
+  </view>
+  <view class="action">
+    <van-icon
+      name="phone"
+      color="#1989fa"
+      data-phone="{{item.tel}}"
+      size="25px"
+      catch:tap="onCallShop"
+    />
+    <van-icon
+      name="map-marked"
+      color="#1989fa"
+      size="25px"
+      catch:tap=""
+    />
+  </view>
+</view>
+

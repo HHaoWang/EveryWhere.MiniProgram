@@ -1,0 +1,2 @@
+/* pages/order.wxss */
+@import 'order-wxa-auto-dark.wxss'

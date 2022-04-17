@@ -1,0 +1,322 @@
+<!-- pages/shop/shop.wxml -->
+<!-- 导航栏 -->
+<view class="header">
+  <van-nav-bar
+    left-text="返回"
+    left-arrow
+    bind:click-left="onClickLeft"
+    border="false"
+    custom-class="nav-style"
+  />
+  <view class="shop-name">
+    <van-icon name="phone" data-phone="{{shop.tel}}" />
+    {{shop.name}}
+  </view>
+  <view>
+    <view class="shop-info">
+      <van-icon name="location-o" />
+      {{shop.address}}
+    </view>
+    <view class="shop-info">
+      <van-icon name="underway-o" />
+      {{shop.openTime}} - {{shop.closeTime}}
+    </view>
+  </view>
+  <van-divider customStyle="margin:0 48px;border-color:#f2f2f2" wx:if="{{shop.notice}}"></van-divider>
+  <view class="shop-notice" wx:if="{{shop.notice}}">
+    <view class="shop-notice-title">公告</view>
+    <view class="shop-notice-content">{{shop.notice}}</view>
+  </view>
+</view>
+
+<!-- 打印机列表 -->
+<view class="printers">
+  <view
+    class="printer touchable-card"
+    wx:for="{{shop.printers}}"
+    data-id="{{item.id}}"
+    bind:tap="onClickPrinter"
+  >
+    <view class="printer-icon">
+      <image src="/static/img/printer.svg" mode="widthFix" />
+    </view>
+    <view class="printer-info">
+      <view class="printer-name">{{item.name}}</view>
+      <!-- <view class="printer-price">
+        <view>
+          黑白：
+          <text>{{item.blackSinglePrice}}</text>
+          元/页
+          <text>{{item.blackDuplexPrice}}</text>
+          元/正反双页
+        </view>
+        <view>
+          彩色：
+          <text>{{item.colorSinglePrice}}</text>
+          元/页
+          <text>{{item.colorDuplexPrice}}</text>
+          元/正反双页
+        </view>
+      </view> -->
+      <van-tag
+        plain
+        type="primary"
+        wx:if="{{item.supportColor}}"
+      >彩印
+      </van-tag>
+      <van-tag
+        plain
+        type="primary"
+        wx:if="{{!item.supportColor}}"
+      >黑白
+      </van-tag>
+      <van-tag
+        plain
+        type="primary"
+        wx:if="{{item.supportDuplex}}"
+      >双面打印
+      </van-tag>
+      <van-tag
+        plain
+        type="primary"
+        wx:if="{{!item.supportDuplex}}"
+      >单面打印
+      </van-tag>
+      <van-tag
+        plain
+        type="primary"
+        wx:for="{{item.supportSizes}}"
+        wx:for-item="value"
+        wx:for-index="key"
+      >{{key}}
+      </van-tag>
+    </view>
+  </view>
+</view>
+
+<!-- 订单提交栏 -->
+<!-- price单位为分 -->
+<van-submit-bar
+  price="{{ totalPrice }}"
+  button-text="提交订单"
+  bind:submit="onSubmit"
+>
+  <view class="cart-style touchable" bind:tap="onOpenCart">
+    <van-icon
+      name="cart-o"
+      size="2em"
+      color="#1989fa"
+    />
+  </view>
+
+</van-submit-bar>
+
+<!-- 打印机详情 -->
+<van-popup
+  show="{{ showPrinterInfo }}"
+  bind:close="onClosePrinterInfo"
+  position="bottom"
+  round
+  custom-style="height: 40%;padding:8px 0;"
+>
+  <view class="printer-detail">
+    <view class="printer-name">{{currentPrinter.name}}</view>
+    <!-- <view class="printer-status">24个打印任务</view> -->
+    <view class="printer-function">
+      <van-tag
+        plain
+        type="primary"
+        wx:if="{{currentPrinter.color}}"
+      >彩印
+      </van-tag>
+      <van-tag
+        plain
+        type="primary"
+        wx:if="{{!currentPrinter.color}}"
+      >黑白
+      </van-tag>
+      <van-tag
+        plain
+        type="primary"
+        wx:if="{{currentPrinter.duplex}}"
+      >双面打印
+      </van-tag>
+      <van-tag
+        plain
+        type="primary"
+        wx:if="{{!currentPrinter.duplex}}"
+      >单面打印
+      </van-tag>
+      <van-tag
+        plain
+        type="primary"
+        wx:for="{{currentPrinter.supportSizes}}"
+        wx:for-item="value"
+        wx:for-index="key"
+      >{{key}}
+      </van-tag>
+    </view>
+    <view
+      class="printer-price"
+      wx:for="{{currentPrinter.supportSizes}}"
+      wx:for-index="size"
+      wx:for-item="price"
+    >
+      <view class="size-name">{{size}}</view>
+      <view class="price-detail">
+        <view>
+          黑白：
+          <text>{{price.singleBlack}}</text>
+          元/页
+          <text>{{price.duplexBlack}}</text>
+          元/正反双页
+        </view>
+        <view>
+          彩色：
+          <text>{{price.singleColor}}</text>
+          元/页
+          <text>{{price.duplexColor}}</text>
+          元/正反双页
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="print-now">
+    <van-button
+      type="info"
+      block
+      round
+      bind:tap="onClickPrintNow"
+    >添加打印
+    </van-button>
+  </view>
+</van-popup>
+
+<!-- 打印 -->
+<van-popup
+  show="{{ showPrintSettings }}"
+  bind:close="onClosePrintSetting"
+  position="bottom"
+  round
+  closeable
+  close-on-click-overlay="false"
+  close-icon-position="top-right"
+  custom-style="height: 80%;padding:48px 0 8px;"
+>
+  <van-cell-group>
+    <van-cell
+      title="上传文件"
+      is-link
+      bind:click="onUploadFile"
+      label="{{uploadedFileDescription}}"
+    />
+  </van-cell-group>
+  <view class="print-settings">
+    <view class="setting-item">
+      <view class="setting-desc">尺寸</view>
+      <view class="setting-value">
+        <van-radio-group
+          value="{{ currentPrintSetting.size }}"
+          bind:change="onSizeChange"
+          direction="horizontal"
+        >
+          <van-radio name="A4">A4</van-radio>
+          <van-radio name="A3">A3</van-radio>
+          <van-radio name="B5">B5</van-radio>
+        </van-radio-group>
+      </view>
+    </view>
+    <view class="setting-item">
+      <view class="setting-desc">颜色</view>
+      <view class="setting-value">
+        <van-radio-group
+          value="{{ currentPrintSetting.color }}"
+          bind:change="onSelectedColorChange"
+          direction="horizontal"
+        >
+          <van-radio name="1">彩色</van-radio>
+          <van-radio name="0">黑白</van-radio>
+        </van-radio-group>
+      </view>
+    </view>
+    <view class="setting-item">
+      <view class="setting-desc">单双页</view>
+      <view class="setting-value">
+        <van-radio-group
+          value="{{ currentPrintSetting.duplex }}"
+          bind:change="onDuplexChange"
+          direction="horizontal"
+        >
+          <van-radio name="1">双页</van-radio>
+          <van-radio name="0">单页</van-radio>
+        </van-radio-group>
+      </view>
+    </view>
+    <view class="setting-item">
+      <view class="setting-desc">份数</view>
+      <view class="setting-value">
+        <van-stepper
+          value="{{ currentPrintSetting.count }}"
+          bind:change="onCountChange"
+          integer
+          min="1"
+          max="100"
+        />
+      </view>
+    </view>
+    <view class="setting-item">
+      <view class="setting-desc">打印范围</view>
+      <view class="setting-value">
+        <picker
+          mode="multiSelector"
+          bindchange="onPagesChange"
+          bindcolumnchange="onPagesColumnChange"
+          value="{{currentPrintPagesIndex}}"
+          range="{{currentPrintPagesArray}}"
+        >
+          <view class="picker">
+            第{{currentPrintPagesArray[0][currentPrintPagesIndex[0]]}}页 - 第{{currentPrintPagesArray[1][currentPrintPagesIndex[1]]}}页
+          </view>
+        </picker>
+      </view>
+    </view>
+    <view class="setting-item">
+      <view class="setting-desc">预计金额</view>
+      <view class="setting-value">
+        <text wx:if="{{currentPrintSetting.price<0}}">正在计算</text>
+        <text wx:if="{{currentPrintSetting.price>=0}}">{{currentPrintSetting.price}}元</text>
+      </view>
+    </view>
+  </view>
+  <view class="print-now">
+    <van-button
+      type="info"
+      block
+      round
+      bind:click="onSubmitJob"
+    >确定
+    </van-button>
+  </view>
+</van-popup>
+
+<van-overlay show="{{ showLoading }}" z-index="999">
+  <view class="loading-wrapper">
+    <view class="loading-block">
+      <van-loading size="36px" color="#1989fa">文件上传解析中...</van-loading>
+    </view>
+  </view>
+</van-overlay>
+
+<van-dialog id="van-dialog" />
+
+<!-- 购物车 -->
+<van-popup
+  show="{{ showCart }}"
+  bind:close="onCloseCart"
+  position="bottom"
+  round
+  custom-style="height: 80%;padding:8px;"
+>
+  <view class="cart-title">已添加的打印任务</view>
+</van-popup>
+

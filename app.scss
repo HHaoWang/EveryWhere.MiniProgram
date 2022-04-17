@@ -1,0 +1,21 @@
+@import './mp-cu/colorUI/scss/ui';
+
+/*  实际项目中，可删除下面的相关文件和引用，因为图标太多，体积较大，
+    可能你项目里并不需要这么多图标，建议自行添加需要的扩展icon图标引用。*/
+
+@import './mp-sdk/icon/doc';
+.background-color {
+    background-color: rgb(247 248 250);
+}
+
+page {
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
+}
+
+.touchable:active {
+    background-color: #f2f3f5;
+}
+
+.touchable-card:active {
+    transform: translate(1px, 1px);
+}

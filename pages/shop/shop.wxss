@@ -1,0 +1,196 @@
+/* pages/shop/shop.wxss */
+
+page {
+    background-color: #f9f9f9 !important;
+    box-sizing: initial;
+}
+
+.header {
+    background-color: #2DA5FF;
+    border-radius: 0 0 20px 20px;
+    color: white;
+}
+
+.nav-style {
+    box-sizing: initial;
+    background-color: transparent !important;
+    color: white;
+    --nav-bar-icon-color: white;
+    --nav-bar-text-color: white;
+}
+
+view.van-hairline--bottom:after {
+    border-bottom-width: 0;
+}
+
+.shop-name {
+    font-size: larger;
+    padding: 16px;
+    line-height: 32px;
+}
+
+.shop-info {
+    padding: 4px 16px;
+}
+
+.shop-info:last-child {
+    padding-bottom: 16px;
+}
+
+.shop-notice {
+    padding: 16px;
+    border-top: 1px;
+}
+
+.printers {
+    margin: 15px 0 65px;
+}
+
+.printer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+    width: 95%;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.printer+.printer {
+    margin-top: 12px;
+}
+
+.printer-icon {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.printer-icon image {
+    width: 75%;
+    height: auto;
+}
+
+.printer-info {
+    flex: 8;
+}
+
+.printer-price {
+    color: grey;
+    margin: 6px 0;
+    display: flex;
+}
+
+.printer-price .size-name {
+    flex: 2;
+    font-size: 24px;
+    line-height: 40px;
+    text-align: center;
+    margin-right: 20px;
+    border-right: #EE0A24 solid 1px;
+}
+
+.printer-price .price-detail {
+    flex: 8;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+van-tag+van-tag {
+    padding-left: 2px;
+}
+
+.printer-detail {
+    padding: 8px 16px;
+}
+
+.printer-detail .printer-name {
+    font-size: larger;
+    margin: 6px 0;
+}
+
+.printer-detail .printer-status {
+    margin: 12px 0;
+}
+
+.printer-detail .printer-price {
+    margin: 12px 0;
+}
+
+.print-now {
+    position: absolute !important;
+    bottom: 6px;
+    display: block;
+    padding: 0 12px;
+    width: 100%;
+}
+
+.print-settings .setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 24px;
+    font-size: 14px;
+    padding: 10px 16px;
+    position: relative;
+}
+
+.print-settings .setting-item:after {
+    border-bottom: 1px solid #ebedf0;
+    bottom: 0;
+    box-sizing: border-box;
+    content: " ";
+    left: 16px;
+    pointer-events: none;
+    position: absolute;
+    right: 16px;
+    transform: scaleY(.5);
+    transform-origin: center
+}
+
+.print-settings .setting-item .setting-desc {
+    flex: 2;
+}
+
+.print-settings .setting-item .setting-value {
+    flex: 8;
+    position: absolute;
+    right: 0;
+    padding-right: 16px;
+}
+
+.cart-style {
+    width: 3em;
+    height: 3em;
+    line-height: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.cart-title {
+    font-weight: bold;
+    font-size: 16px;
+    font-family: "黑体";
+}
+
+.loading-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.loading-block {
+    width: 240px;
+    height: 120px;
+    background-color: #fff;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

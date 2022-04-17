@@ -1,0 +1,60 @@
+/**index.wxss**/
+
+.banner {
+    position: relative;
+    width: 100%;
+    margin-bottom: 3%;
+}
+
+.banner::after {
+    content: '';
+    width: 160%;
+    position: absolute;
+    top: -15%;
+    left: -30%;
+    height: 100%;
+    border-radius: 0 0 50% 50%;
+    background-color: rgba(183, 69, 203, var(--ui-BG-opacity));
+    z-index: -1;
+}
+
+.banner-img {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.start-print {
+    width: 90%;
+    margin: 2% auto;
+    height: 150px;
+}
+
+.block-card {
+    width: 90%;
+    margin: 2% auto;
+    height: 130px;
+    display: flex;
+}
+
+.block-card image {
+    height: 60%;
+    margin: auto;
+    flex: 4;
+}
+
+.block-card text {
+    flex: 5;
+    text-align: center;
+    font-size: x-large;
+    display: flex;
+    /*实现垂直居中*/
+    align-items: center;
+    /*实现水平居中*/
+    justify-content: center;
+}
+
+@import 'index-wxa-auto-dark.wxss'

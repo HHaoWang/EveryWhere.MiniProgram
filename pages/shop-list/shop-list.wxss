@@ -1,0 +1,50 @@
+/* pages/shop-list/shop-list.wxss */
+
+.area-selector {
+    margin: 20px 0;
+}
+
+page {
+    background-color: rgb(247 248 250) !important;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}
+
+.shop-card {
+    display: flex;
+    width: 100%;
+    padding: 10px 16px;
+    margin: 10px auto;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cell-background-color, #fff);
+    box-sizing: border-box;
+    color: var(--cell-text-color, #323233);
+    font-size: var(--cell-font-size, 14px);
+    line-height: var(--cell-line-height, 24px);
+    padding: var(--cell-vertical-padding, 10px) var(--cell-horizontal-padding, 16px);
+}
+
+.shop-card .base-info {
+    flex: 8;
+}
+
+.shop-card .base-info .shop-name {
+    font-weight: bolder;
+}
+
+.shop-card .action {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.shop-card .action van-icon+van-icon {
+    margin-left: 10px;
+}

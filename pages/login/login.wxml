@@ -1,0 +1,25 @@
+<view class="auth">
+  <image
+    src="https://everywhere.hhao.wang/api/File/StaticImg/login.png"
+    mode="heightFix"
+    class="img"
+  ></image>
+  <view class="title">登录</view>
+  <view class="describe">请点击下方按钮进行登录</view>
+  <van-button
+    plain
+    type="info"
+    wx:if="{{canIUse}}"
+    bindtap='onAuth'
+  >点击授权登录
+  </van-button>
+  <navigator
+    wx:if="{{!canIUse}}"
+    class="btn"
+    url="/pages/login/login"
+    open-type="reLaunch"
+    hover-class="other-navigator-hover"
+  >已经授权点击调转
+  </navigator>
+</view>
+
