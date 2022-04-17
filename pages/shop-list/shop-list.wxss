@@ -4,10 +4,6 @@
     margin: 20px 0;
 }
 
-page {
-    background-color: rgb(247 248 250) !important;
-}
-
 .loading {
     display: flex;
     justify-content: center;

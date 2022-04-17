@@ -1,21 +1,19 @@
 <!--index.wxml-->
-<ui-sys tabbar>
-  <view class="banner" style="height:{{sys_info.windowHeight * 0.35}}px">
-    <image
-      src="/static/img/banner01.jpg"
-      mode="center"
-      class="banner-img radius shadow-blur"
-      style="top: {{topStart}}px;height:{{sys_info.windowHeight * 0.24}}px"
-    />
-  </view>
-  <view class="block-card touchable-card bg-yellow-gradient radius shadow-blur" bind:tap="onStartPrint">
-    <image src="/static/img/printer.svg" />
-    <text>开始打印</text>
-  </view>
+<view class="banner" style="height:{{sys_info.windowHeight * 0.35}}px">
+  <image
+    src="/static/img/banner01.jpg"
+    mode="center"
+    class="banner-img radius shadow-blur"
+    style="top: {{topStart}}px;height:{{sys_info.windowHeight * 0.24}}px"
+  />
+</view>
+<view class="block-card touchable-card bg-yellow-gradient radius shadow-blur" bind:tap="onStartPrint">
+  <image src="/static/img/printer.svg" />
+  <text>开始打印</text>
+</view>
 
-  <view class="block-card touchable-card bg-orange-gradient radius shadow-blur">
-    <image src="/static/img/shop.svg" />
-    <text>扫码进店</text>
-  </view>
-</ui-sys>
+<view class="block-card touchable-card bg-orange-gradient radius shadow-blur">
+  <image src="/static/img/shop.svg" />
+  <text>扫码进店</text>
+</view>
 

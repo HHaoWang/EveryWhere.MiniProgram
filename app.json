@@ -21,24 +21,27 @@
         "selectedColor": "#0081ff",
         "list": [{
                 "pagePath": "pages/index/index",
-                "text": "首页"
+                "text": "首页",
+                "iconPath": "static/tab_icon/document.png",
+                "selectedIconPath": "static/tab_icon/document_cur.png"
             },
             {
                 "pagePath": "pages/order/order",
-                "text": "订单"
+                "text": "订单",
+                "iconPath": "static/tab_icon/document.png",
+                "selectedIconPath": "static/tab_icon/document_cur.png"
             },
             {
                 "pagePath": "pages/my/my",
-                "text": "个人"
+                "text": "个人",
+                "iconPath": "static/tab_icon/document.png",
+                "selectedIconPath": "static/tab_icon/document_cur.png"
             }
         ]
     },
     "sitemapLocation": "sitemap.json",
     "darkmode": true,
     "usingComponents": {
-        "ui-sys": "/mp-cu/colorUI/components/ui-sys/ui-sys",
-        "ui-tab": "/mp-cu/colorUI/components/ui-tab/ui-tab",
-        "ui-img": "mp-cu/colorUI/components/ui-img/ui-img",
         "van-button": "@vant/weapp/button/index",
         "van-nav-bar": "@vant/weapp/nav-bar/index",
         "van-icon": "@vant/weapp/icon/index"

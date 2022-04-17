@@ -3,6 +3,7 @@
 page {
     height: 100%;
     display: table;
+    background-color: white;
 }
 
 .auth {
