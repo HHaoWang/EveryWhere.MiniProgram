@@ -1,3 +1,72 @@
 <!--pages/order.wxml-->
-<ui-sys tabbar>
-</ui-sys>
+
+<view class="job-card" wx:for="{{order.printJobs}}">
+  <view class="job-icon">
+    <image
+      src="/static/img/word.svg"
+      mode="widthFix"
+      wx:if="{{item.fileInfo.ext == 'doc'}}"
+    />
+    <image
+      src="/static/img/word.svg"
+      mode="widthFix"
+      wx:if="{{item.fileInfo.ext == 'docx'}}"
+    />
+    <image
+      src="/static/img/ppt.svg"
+      mode="widthFix"
+      wx:if="{{item.fileInfo.ext == 'ppt'}}"
+    />
+    <image
+      src="/static/img/ppt.svg"
+      mode="widthFix"
+      wx:if="{{item.fileInfo.ext == 'pptx'}}"
+    />
+    <image
+      src="/static/img/excel.svg"
+      mode="widthFix"
+      wx:if="{{item.fileInfo.ext == 'xls'}}"
+    />
+    <image
+      src="/static/img/excel.svg"
+      mode="widthFix"
+      wx:if="{{item.fileInfo.ext == 'xlsx'}}"
+    />
+  </view>
+  <view class="job-info">
+    <view class="job-name">{{item.fileInfo.name}}</view>
+    <view>
+      <van-tag
+        plain
+        type="primary"
+        wx:if="{{item.color == 1}}"
+      >彩印
+      </van-tag>
+      <van-tag
+        plain
+        type="primary"
+        wx:if="{{item.color != 1}}"
+      >黑白
+      </van-tag>
+      <van-tag
+        plain
+        type="primary"
+        wx:if="{{item.duplex == 1}}"
+      >双面打印
+      </van-tag>
+      <van-tag
+        plain
+        type="primary"
+        wx:if="{{item.duplex != 1}}"
+      >单面打印
+      </van-tag>
+      <van-tag plain type="primary">{{item.size}}
+      </van-tag>
+    </view>
+    <view class="job-price">
+      ￥{{item.price/100}}
+    </view>
+  </view>
+
+</view>
+

@@ -1,31 +1,28 @@
 <!--pages/my.wxml-->
-<ui-sys tabbar>
-  <view class="mine-wrapper">
-    <view class="user-box">
-      <view class="header-box">
-        <!-- 当已经登录的时候 -->
-        <view wx:if="{{isLogin}}" class="result">
-          <image src="{{avatarUrl}}" class="avatar"></image>
-          <view class="nickname">{{nickName}}</view>
-        </view>
-        <!-- 当未登录的时候 -->
-        <view wx:else>
-          <view style="margin-bottom:40px">未登录</view>
-          <button open-type="getUserInfo" bindtap="bindLoginClick">授权登录</button>
-        </view>
+<view class="mine-wrapper">
+  <view class="user-box">
+    <view class="header-box">
+      <!-- 当已经登录的时候 -->
+      <view wx:if="{{isLogin}}" class="result">
+        <image src="{{avatarUrl}}" class="avatar"></image>
+        <view class="nickname">{{nickName}}</view>
       </view>
-
+      <!-- 当未登录的时候 -->
+      <view wx:else>
+        <view style="margin-bottom:40px">未登录</view>
+        <button open-type="getUserInfo" bindtap="bindLoginClick">授权登录</button>
+      </view>
     </view>
-
-    <van-cell is-link title="手机号" />
-    <van-cell
-      is-link
-      title="扫一扫"
-      bind:tap="scanQrCode"
-    />
-    <van-cell is-link title="关于" />
   </view>
 
-  <van-dialog id="van-dialog" />
-</ui-sys>
+  <van-cell is-link title="手机号" />
+  <van-cell
+    is-link
+    title="扫一扫"
+    bind:tap="scanQrCode"
+  />
+  <van-cell is-link title="关于" />
+</view>
+
+<van-dialog id="van-dialog" />
 

@@ -1,0 +1,37 @@
+/* pages/order-list/order-list.wxss */
+
+.order-title {
+    font-size: 14px;
+    color: #1989fa;
+}
+
+.order-desc {
+    color: #646566;
+}
+
+.order-card {
+    background-color: white !important;
+}
+
+.order-icon {
+    width: 80% !important;
+    margin: auto;
+    display: block;
+}
+
+.order-desc {
+    margin: 4px 0 8px;
+}
+
+.order-price {
+    line-height: 20px;
+}
+
+.order-price-number {
+    color: var(--card-price-color, #ee0a24);
+    display: inline-block;
+    font-weight: 700;
+    font-family: var(--card-price-font-family, Avenir-Heavy, PingFang SC, Helvetica Neue, Arial, sans-serif);
+    font-size: var(--card-price-integer-font-size, 16px);
+    margin-right: 4px;
+}

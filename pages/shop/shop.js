@@ -11,16 +11,7 @@ Page({
      * 页面的初始数据
      */
     data: {
-        shop: {
-            id: 1,
-            name: "飞跃打印",
-            location: "龙海区厦门大学嘉庚学院北区商城211店",
-            openingHours: "09:30-22:00",
-            opening: true,
-            tel: '17624550219',
-            notice: '本店开业大酬宾啦！！！！！进店有优惠！！！！千万不要错过！！！！',
-            printers: []
-        },
+        shop: {},
         jobs: [],
         showPrinterInfo: false,
         currentPrinterId: -1,
@@ -61,7 +52,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        var reqTask = wx.request({
+        wx.request({
             url: app.globalData.baseUrl + '/api/Shop/' + options.id,
             method: 'GET',
             success: (result) => {
@@ -439,8 +430,14 @@ Page({
             success: (result) => {
                 console.log(result.data);
                 if (result.data.statusCode == 200) {
-                    wx.navigateBack({
-                        delta: 1
+                    that.resetPage();
+                    wx.navigateTo({
+                        url: '/pages/order/order?id=' + result.data.data.order.id,
+                        success: (result) => {
+
+                        },
+                        fail: () => {},
+                        complete: () => {}
                     });
                 }
             },
@@ -448,6 +445,27 @@ Page({
             complete: () => {}
         });
 
+    },
+
+    /**
+     * 重置页面数据
+     */
+    resetPage() {
+        this.setData({
+            jobs: [],
+            showPrinterInfo: false,
+            currentPrinterId: -1,
+            showPrintSettings: false,
+            uploadedFileInfo: null,
+            currentPrintSetting: null,
+            currentPrintPagesIndex: [0, 0],
+            currentPrintPagesArray: [
+                [],
+                []
+            ],
+            showCart: false,
+            showLoading: false
+        });
     },
 
     /**

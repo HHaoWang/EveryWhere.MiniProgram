@@ -40,6 +40,7 @@
     height: 300rpx;
     width: 100%;
     position: relative;
+    margin-bottom: 16px;
 }
 
 .user-box .user-bg {

@@ -5,7 +5,8 @@
         "pages/my/my",
         "pages/shop-list/shop-list",
         "pages/shop/shop",
-        "pages/login/login"
+        "pages/login/login",
+        "pages/order-list/order-list"
     ],
     "window": {
         "backgroundTextStyle": "light",
@@ -26,7 +27,7 @@
                 "selectedIconPath": "static/tab_icon/document_cur.png"
             },
             {
-                "pagePath": "pages/order/order",
+                "pagePath": "pages/order-list/order-list",
                 "text": "订单",
                 "iconPath": "static/tab_icon/document.png",
                 "selectedIconPath": "static/tab_icon/document_cur.png"

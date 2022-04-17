@@ -87,10 +87,6 @@ Page({
             header: { 'content-type': 'application/json' },
             method: 'GET',
             success: (result) => {
-                // let shops = result.data.shopList.map(shop => {
-                //     shop.openingHours = shop.openTime + "-" + shop.closeTime;
-                //     return shop;
-                // });
                 that.setData({
                     shopList: result.data.shopList
                 });
@@ -104,27 +100,6 @@ Page({
                 })
             }
         });
-
-        // setTimeout(() => {
-        //     this.setData({
-        //         showLoading: false,
-        //         shopList: [{
-        //             id: 1,
-        //             name: "飞跃打印",
-        //             location: "龙海区厦门大学嘉庚学院北区商城211店",
-        //             openingHours: "09:30-22:00",
-        //             opening: true,
-        //             tel: '17624550219'
-        //         }, {
-        //             id: 2,
-        //             name: "乙方打印",
-        //             location: "龙海区厦门大学嘉庚学院北区商城211店",
-        //             openingHours: "09:30-22:00",
-        //             opening: true,
-        //             tel: '17624550219'
-        //         }]
-        //     })
-        // }, 500)
     },
 
     onCallShop(event) {
