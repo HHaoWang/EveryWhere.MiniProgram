@@ -43,6 +43,10 @@ Page({
                     onlyFromCamera: true,
                     scanType: ["qrCode"]
                 })
+            }).catch((error) => {
+                console.log("扫码失败！");
+                console.log(error);
+                throw error;
             }).then((res) => {
                 console.log(res);
                 info = JSON.parse(res.result);
@@ -54,9 +58,6 @@ Page({
                     title: '登录提示',
                     message: '是否登录？',
                 })
-            }).catch((error) => {
-                console.log("用户取消登录");
-                console.log(error);
             }).then(() => {
                 wx.request({
                     url: app.globalData.baseUrl + '/api/Login/QrCode/' + info.data.uuid,
@@ -79,7 +80,7 @@ Page({
                     complete: () => {}
                 });
             }).catch((error) => {
-                console.log("扫码失败！");
+                console.log("用户取消登录");
                 console.log(error);
             })
 
