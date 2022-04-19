@@ -115,7 +115,7 @@ Page({
             })
         this.setData({
             nickName: app.globalData.user.nickName,
-            avatarUrl: app.globalData.user.avatar,
+            avatarUrl: app.globalData.user.avatarUrl,
             isLogin: app.globalData.token !== ''
         })
     },

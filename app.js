@@ -2,7 +2,21 @@
 
 App({
     onLaunch() {
+        wx.getStorage({
+            key: "token"
+        }).then(res => {
+            this.globalData.token = res.data
+        }).catch(err => {
 
+        }).then(() => {
+            return wx.getStorage({
+                key: "user"
+            })
+        }).then(res => {
+            this.globalData.user = res.data
+        }).catch(err => {
+
+        })
     },
     globalData: {
         token: '',

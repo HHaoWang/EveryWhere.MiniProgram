@@ -16,7 +16,7 @@ Page({
             let avatarUrl = userInfo.avatarUrl;
             let nickName = userInfo.nickName;
             app.globalData.user.nickName = nickName;
-            app.globalData.user.avatar = avatarUrl;
+            app.globalData.user.avatarUrl = avatarUrl;
             wx.login({
                 success(res) {
                     wx.request({
@@ -31,6 +31,10 @@ Page({
                             app.globalData.token = ress.data.data.token
                             try {
                                 wx.setStorageSync('token', ress.data.data.token)
+                                wx.setStorageSync('user', {
+                                    avatarUrl,
+                                    nickName
+                                })
                             } catch (e) {}
                             wx.navigateBack()
                         }
