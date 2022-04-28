@@ -42,7 +42,11 @@
 
 <view class="desc-text">订单文档</view>
 
-<view class="job-card" wx:for="{{order.printJobs}}">
+<view
+  class="job-card"
+  wx:for="{{order.printJobs}}"
+  bind:tap="requireSubscribe"
+>
   <view class="job-icon">
     <image
       src="/static/img/word.svg"
@@ -110,6 +114,7 @@
       ￥{{item.price}}
       <view class="job-count">{{item.count}}份</view>
     </view>
+    <view class="subscribe">点击订阅任务状态</view>
   </view>
 
 </view>

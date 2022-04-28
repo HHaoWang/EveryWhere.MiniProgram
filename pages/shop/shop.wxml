@@ -221,8 +221,7 @@
           bind:change="onSizeChange"
           direction="horizontal"
         >
-          <van-radio name="A4">A4</van-radio>
-          <van-radio name="A3">A3</van-radio>
+          <van-radio name="{{index}}" wx:for="{{currentPrinter.supportSizes}}">{{index}}</van-radio>
         </van-radio-group>
       </view>
     </view>
@@ -234,7 +233,7 @@
           bind:change="onSelectedColorChange"
           direction="horizontal"
         >
-          <van-radio name="1">彩色</van-radio>
+          <van-radio name="1" disabled="{{!currentPrinter.supportColor}}">彩色</van-radio>
           <van-radio name="0">黑白</van-radio>
         </van-radio-group>
       </view>
@@ -247,7 +246,7 @@
           bind:change="onDuplexChange"
           direction="horizontal"
         >
-          <van-radio name="1">双页</van-radio>
+          <van-radio name="1" disabled="{{!currentPrinter.supportDuplex}}">双页</van-radio>
           <van-radio name="0">单页</van-radio>
         </van-radio-group>
       </view>

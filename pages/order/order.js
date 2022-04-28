@@ -8,7 +8,8 @@ Page({
      * 页面的初始数据
      */
     data: {
-        order: null
+        order: null,
+        orderId: -1
     },
 
     /**
@@ -16,6 +17,9 @@ Page({
      */
     onLoad: function(options) {
         let that = this;
+        this.setData({
+            orderId: options.id
+        });
         wx.request({
             url: app.globalData.baseUrl + '/api/Order/' + options.id,
             success: (result) => {
@@ -24,7 +28,6 @@ Page({
             fail: () => {},
             complete: () => {}
         });
-
     },
 
     /**
@@ -63,7 +66,10 @@ Page({
             method: 'POST',
             success: (result) => {
                 if (result.data.statusCode == 200) {
-                    that.setOrder(result.data.data.order);
+                    that.requireSubscribe();
+                    that.onLoad({
+                        id: that.data.orderId
+                    })
                 } else {
                     Dialog.alert({
                         message: "支付失败！" + result.data.message
@@ -74,6 +80,23 @@ Page({
             complete: () => {}
         });
 
+    },
+
+    /**
+     * 订阅订单消息
+     */
+    requireSubscribe() {
+        wx.requestSubscribeMessage({
+            tmplIds: [
+                'f_qfrBzThpIfK8WwdSHymugm_PU63Ejc60THzfD_Hpg'
+            ],
+            success(res) {
+                console.log(res);
+            },
+            fail(err) {
+                console.log(err);
+            }
+        })
     },
 
     /**

@@ -37,7 +37,6 @@ App({
                 },
                 method: 'GET',
                 success: (result) => {
-                    console.log(result);
                     if (result.statusCode !== 200) {
                         reject();
                     } else {
