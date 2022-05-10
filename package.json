@@ -4,6 +4,7 @@
   "description": "a miniprogram supporting remote print order",
   "main": "app.js",
   "dependencies": {
+    "@js-joda/core": "^5.2.0",
     "@vant/area-data": "^1.2.3",
     "@vant/weapp": "^1.10.2",
     "miniprogram-computed": "^4.3.8"

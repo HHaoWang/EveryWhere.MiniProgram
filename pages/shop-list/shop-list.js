@@ -1,7 +1,7 @@
 // pages/shop-list/shop-list.js
 import { behavior as computedBehavior } from 'miniprogram-computed';
 const app = getApp();
-
+let LocalTime = require("@js-joda/core").LocalTime;
 
 Page({
 
@@ -70,7 +70,6 @@ Page({
     },
 
     onConfirmArea(event) {
-        console.log(event);
         this.setData({
             area: event.detail.values.reduce((total, item) => total + item.name, ""),
             areaCode: event.detail.values[event.detail.values.length - 1].code
@@ -90,6 +89,12 @@ Page({
             header: { 'content-type': 'application/json' },
             method: 'GET',
             success: (result) => {
+                result.data.shopList.forEach(shop => {
+                    let openTime = LocalTime.parse(shop.openTime);
+                    let closeTime = LocalTime.parse(shop.closeTime);
+                    shop['isOpen'] = (shop.isOpening && LocalTime.now().isAfter(openTime) && LocalTime.now().isBefore(closeTime));
+                });
+                result.data.shopList.sort((a, b) => b.isOpen - a.isOpen);
                 that.setData({
                     shopList: result.data.shopList
                 });

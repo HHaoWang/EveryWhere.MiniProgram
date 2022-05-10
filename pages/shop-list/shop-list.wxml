@@ -63,16 +63,25 @@
     <van-tag
       type="primary"
       size="medium"
-      wx:if="{{item.isOpening}}"
+      wx:if="{{item.isOpen}}"
     >营业中
     </van-tag>
-    <van-tag
-      color="grey"
-      size="medium"
-      wx:else="{{item.isOpening}}"
-      plain
-    >暂停营业
-    </van-tag>
+    <view wx:else="{{item.isOpen}}">
+      <van-tag
+        color="grey"
+        size="medium"
+        wx:if="{{item.isOpening}}"
+        plain
+      >打烊
+      </van-tag>
+      <van-tag
+        color="grey"
+        size="medium"
+        wx:else="{{item.isOpening}}"
+        plain
+      >暂停营业
+      </van-tag>
+    </view>
   </view>
   <view class="action">
     <van-icon
@@ -82,12 +91,12 @@
       size="25px"
       catch:tap="onCallShop"
     />
-    <van-icon
+    <!-- <van-icon
       name="map-marked"
       color="#1989fa"
       size="25px"
       catch:tap=""
-    />
+    /> -->
   </view>
 </view>
 

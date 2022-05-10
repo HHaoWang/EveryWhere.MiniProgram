@@ -2,7 +2,7 @@
 <!--导航栏-->
 <van-nav-bar title="订单管理" custom-style="margin-bottom: 20px;" />
 
-<van-empty description="没有历史订单" wx:if="{{order.length <= 0}}" />
+<van-empty description="没有历史订单" wx:if="{{orders.length <= 0}}" />
 
 <view>
   <view

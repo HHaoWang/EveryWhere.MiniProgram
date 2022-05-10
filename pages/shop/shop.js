@@ -2,8 +2,7 @@
 import { behavior as computedBehavior } from 'miniprogram-computed';
 import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
 let app = getApp();
-
-
+let LocalTime = require("@js-joda/core").LocalTime;
 
 Page({
 
@@ -11,7 +10,11 @@ Page({
      * 页面的初始数据
      */
     data: {
-        shop: {},
+        shop: {
+            isOpening: false,
+            openTime: '00:00:00',
+            closeTime: '00:00:00'
+        },
         jobs: [],
         showPrinterInfo: false,
         showPrintSettings: false,
@@ -42,6 +45,11 @@ Page({
         },
         submitOrderDisabled(data) {
             return data.jobs == null || data.jobs.length <= 0;
+        },
+        isOpen(data) {
+            let openTime = LocalTime.parse(data.shop.openTime);
+            let closeTime = LocalTime.parse(data.shop.closeTime);
+            return (data.shop.isOpening && LocalTime.now().isAfter(openTime) && LocalTime.now().isBefore(closeTime))
         }
     },
 
@@ -61,7 +69,11 @@ Page({
             fail: () => {},
             complete: () => {}
         });
-
+        wx.request({
+            url: app.globalData.baseUrl + '/api/Statistics/Shop/' + options.id + '/Visit',
+            method: 'GET',
+            success: res => {}
+        })
     },
 
     /**
@@ -71,6 +83,15 @@ Page({
         wx.navigateBack({
             delta: 1
         });
+    },
+
+    /**
+     * 拨打电话
+     */
+    onCallShop(event) {
+        wx.makePhoneCall({
+            phoneNumber: event.currentTarget.dataset.phone
+        })
     },
 
     /**

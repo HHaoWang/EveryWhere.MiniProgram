@@ -49,6 +49,10 @@ view.van-hairline--bottom:after {
     border-top: 1px;
 }
 
+.empty-card {
+    margin-top: 80px;
+}
+
 .printers {
     margin: 15px 0 65px;
 }

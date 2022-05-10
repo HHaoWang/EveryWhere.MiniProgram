@@ -53,7 +53,6 @@ Page({
                         'Authorization': 'Bearer ' + app.globalData.token
                     },
                     success: (result) => {
-                        console.log(result.data);
                         if (result.data.statusCode == 200) {
                             let orders = result.data.data.orders;
                             orders.sort((a, b) => {

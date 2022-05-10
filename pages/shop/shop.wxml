@@ -9,7 +9,7 @@
     custom-class="nav-style"
   />
   <view class="shop-name">
-    <van-icon name="phone" data-phone="{{shop.tel}}" />
+    <van-icon name="shop-o" />
     {{shop.name}}
   </view>
   <view>
@@ -21,6 +21,14 @@
       <van-icon name="underway-o" />
       {{shop.openTime}} - {{shop.closeTime}}
     </view>
+    <view
+      class="shop-info"
+      data-phone="{{shop.tel}}"
+      catch:tap="onCallShop"
+    >
+      <van-icon name="phone-o" />
+      {{shop.tel}}
+    </view>
   </view>
   <van-divider customStyle="margin:0 48px;border-color:#f2f2f2" wx:if="{{shop.notice}}"></van-divider>
   <view class="shop-notice" wx:if="{{shop.notice}}">
@@ -29,8 +37,12 @@
   </view>
 </view>
 
+<view wx:if="{{!isOpen}}" class="empty-card">
+  <van-empty image="/static/img/shop_close.svg" description="暂停营业中" />
+</view>
+
 <!-- 打印机列表 -->
-<view class="printers">
+<view class="printers" wx:if="{{isOpen}}">
   <view
     class="printer touchable-card"
     wx:for="{{shop.printers}}"
@@ -42,22 +54,6 @@
     </view>
     <view class="printer-info">
       <view class="printer-name">{{item.name}}</view>
-      <!-- <view class="printer-price">
-        <view>
-          黑白：
-          <text>{{item.blackSinglePrice}}</text>
-          元/页
-          <text>{{item.blackDuplexPrice}}</text>
-          元/正反双页
-        </view>
-        <view>
-          彩色：
-          <text>{{item.colorSinglePrice}}</text>
-          元/页
-          <text>{{item.colorDuplexPrice}}</text>
-          元/正反双页
-        </view>
-      </view> -->
       <van-tag
         plain
         type="primary"
@@ -101,6 +97,7 @@
   button-text="提交订单"
   disabled="{{submitOrderDisabled}}"
   bind:submit="onSubmitOrder"
+  wx:if="{{isOpen}}"
 >
   <view class="cart-style touchable" bind:tap="onOpenCart">
     <van-icon
@@ -127,25 +124,25 @@
       <van-tag
         plain
         type="primary"
-        wx:if="{{currentPrinter.color}}"
+        wx:if="{{currentPrinter.supportColor}}"
       >彩印
       </van-tag>
       <van-tag
         plain
         type="primary"
-        wx:if="{{!currentPrinter.color}}"
+        wx:if="{{!currentPrinter.supportColor}}"
       >黑白
       </van-tag>
       <van-tag
         plain
         type="primary"
-        wx:if="{{currentPrinter.duplex}}"
+        wx:if="{{currentPrinter.supportDuplex}}"
       >双面打印
       </van-tag>
       <van-tag
         plain
         type="primary"
-        wx:if="{{!currentPrinter.duplex}}"
+        wx:if="{{!currentPrinter.supportDuplex}}"
       >单面打印
       </van-tag>
       <van-tag
@@ -167,17 +164,14 @@
       <view class="price-detail">
         <view>
           黑白：
-          <text>{{price.singleBlack}}</text>
-          元/页
-          <text>{{price.duplexBlack}}</text>
-          元/正反双页
+          <text space="emsp">单面打印{{price.singleBlack}}元/张 </text>
+          <text wx:if="{{currentPrinter.supportDuplex}}">双面打印{{price.duplexBlack}}元/张</text>
+
         </view>
-        <view>
+        <view wx:if="{{currentPrinter.supportColor}}">
           彩色：
-          <text>{{price.singleColor}}</text>
-          元/页
-          <text>{{price.duplexColor}}</text>
-          元/正反双页
+          <text space="emsp">单面打印{{price.singleColor}}元/张 </text>
+          <text wx:if="{{currentPrinter.supportDuplex}}">双面打印{{price.duplexColor}}元/张</text>
         </view>
       </view>
     </view>
