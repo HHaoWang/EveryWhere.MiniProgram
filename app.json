@@ -41,7 +41,7 @@
         ]
     },
     "sitemapLocation": "sitemap.json",
-    "darkmode": true,
+    "darkmode": false,
     "usingComponents": {
         "van-button": "@vant/weapp/button/index",
         "van-nav-bar": "@vant/weapp/nav-bar/index",

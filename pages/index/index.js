@@ -18,7 +18,6 @@ Page({
         }).then(res => {
             return wx.getSystemInfo()
         }).then((res) => {
-            console.log(res);
             this.setData({
                 topStart: menuBtnInfo.bottom + 10,
                 sys_info: res

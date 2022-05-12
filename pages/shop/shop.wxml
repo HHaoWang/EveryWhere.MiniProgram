@@ -41,6 +41,10 @@
   <van-empty image="/static/img/shop_close.svg" description="暂停营业中" />
 </view>
 
+<view wx:if="{{shop.printers.length==0}}" class="empty-card">
+  <van-empty description="暂无可用打印机" />
+</view>
+
 <!-- 打印机列表 -->
 <view class="printers" wx:if="{{isOpen}}">
   <view

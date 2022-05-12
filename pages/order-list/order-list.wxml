@@ -1,10 +1,10 @@
 <!--pages/order-list/order-list.wxml-->
 <!--导航栏-->
-<van-nav-bar title="订单管理" custom-style="margin-bottom: 20px;" />
+<van-nav-bar title="订单管理" />
 
 <van-empty description="没有历史订单" wx:if="{{orders.length <= 0}}" />
 
-<view>
+<view class="container">
   <view
     class="card-container touchable"
     wx:for="{{orders}}"

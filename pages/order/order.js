@@ -48,9 +48,16 @@ Page({
      * 返回上一页
      */
     onClickLeft() {
-        wx.navigateBack({
-            delta: 1
-        });
+        let pages = getCurrentPages();
+        if (pages.length == 1) {
+            wx.switchTab({
+                url: "/pages/index/index"
+            })
+        } else {
+            wx.navigateBack({
+                delta: 1
+            });
+        }
     },
 
     /**
@@ -88,7 +95,7 @@ Page({
     requireSubscribe() {
         wx.requestSubscribeMessage({
             tmplIds: [
-                'f_qfrBzThpIfK8WwdSHymugm_PU63Ejc60THzfD_Hpg'
+                'f_qfrBzThpIfK8WwdSHymrz0YBiL13htL_dG1R3zQkE'
             ],
             success(res) {
                 console.log(res);

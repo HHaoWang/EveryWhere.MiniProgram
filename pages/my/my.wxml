@@ -15,13 +15,13 @@
     </view>
   </view>
 
-  <van-cell is-link title="手机号" />
+  <!-- <van-cell is-link title="手机号" /> -->
   <van-cell
     is-link
     title="扫一扫"
     bind:tap="scanQrCode"
   />
-  <van-cell is-link title="关于" />
+  <!-- <van-cell is-link title="关于" /> -->
 </view>
 
 <van-dialog id="van-dialog" />
