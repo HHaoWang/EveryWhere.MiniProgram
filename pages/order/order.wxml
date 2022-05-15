@@ -114,7 +114,7 @@
       ￥{{item.price}}
       <view class="job-count">{{item.count}}份</view>
     </view>
-    <view class="subscribe">点击订阅任务状态</view>
+    <view class="subscribe" wx:if="{{item.fetchCode == null}}">点击订阅任务状态</view>
   </view>
 
 </view>
